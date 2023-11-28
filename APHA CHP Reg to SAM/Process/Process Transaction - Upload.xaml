@@ -1,0 +1,552 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process_Transaction_2" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Diagnostics;assembly=System" xmlns:sd1="clr-namespace:System.Data;assembly=System.Data" xmlns:sn="clr-namespace:System.Net;assembly=System" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:us="clr-namespace:UiPathTeam.SharePoint;assembly=UiPathTeam.SharePoint" xmlns:usa="clr-namespace:UiPathTeam.SharePoint.Activities;assembly=UiPathTeam.SharePoint.Activities" xmlns:usal="clr-namespace:UiPathTeam.SharePoint.Activities.Lists;assembly=UiPathTeam.SharePoint.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(snm:MailMessage)" />
+    <x:Property Name="io_arrExitPoint" Type="InOutArgument(s:Int32[])" />
+    <x:Property Name="io_swProcessingTimer" Type="InOutArgument(sd:Stopwatch)" />
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="io_Config" Type="InOutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="io_arrCaseID" Type="InOutArgument(s:String[])" />
+    <x:Property Name="in_strWorkingFolder" Type="InArgument(x:String)" />
+    <x:Property Name="in_credSharepoint" Type="InArgument(sn:NetworkCredential)" />
+    <x:Property Name="in_TransactionItemString" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1159.2,826</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Process_Transaction_2_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="58">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>UiPath.Shared.Activities.Business</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>Microsoft.SharePoint.Client</x:String>
+      <x:String>UiPathTeam.SharePoint</x:String>
+      <x:String>UiPathTeam.SharePoint.Activities</x:String>
+      <x:String>UiPathTeam.SharePoint.Activities.Lists</x:String>
+      <x:String>SAM_Reuseable_Components.Edge</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>Credentials</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>SAM_Reuseable_Components.Edge.Search</x:String>
+      <x:String>Pop_Ups</x:String>
+      <x:String>UiPath.Form.Activities</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>UiPath.Mail</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Web</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.Web.Activities</x:String>
+      <x:String>System.Dynamic</x:String>
+      <x:String>System.Collections.Specialized</x:String>
+      <x:String>UiPathTeam.SharePoint.Activities.Libraries</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="96">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>Microsoft.SharePoint.Client</AssemblyReference>
+      <AssemblyReference>Microsoft.SharePoint.Client.Runtime</AssemblyReference>
+      <AssemblyReference>OfficeDevPnP.Core</AssemblyReference>
+      <AssemblyReference>UiPathTeam.SharePoint</AssemblyReference>
+      <AssemblyReference>UiPathTeam.SharePoint.Activities</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>SAM Reuseable Components</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>Credentials</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>Pop Ups</AssemblyReference>
+      <AssemblyReference>UiPath.Form.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Persistence.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " sap:VirtualizedContainerService.HintSize="983.2,713.6" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="sd1:DataTable" Name="datCreated" />
+      <Variable x:TypeArguments="sd1:DataTable" Name="datAmended" />
+      <Variable x:TypeArguments="sd1:DataTable" Name="datItems" />
+      <Variable x:TypeArguments="ui:Browser" Name="browserSAM" />
+      <Variable x:TypeArguments="x:Int32" Name="intNoOfRecords" />
+      <Variable x:TypeArguments="x:String" Name="strButtonSelected" />
+      <Variable x:TypeArguments="x:Boolean" Name="booIndividual" />
+      <Variable x:TypeArguments="x:Boolean" Name="boo8000No" />
+      <Variable x:TypeArguments="x:Boolean" Name="booLandlessKeeper" />
+      <Variable x:TypeArguments="x:Boolean" Name="booAmending" />
+    </Flowchart.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <av:Point x:Key="ShapeLocation">450,32.5</av:Point>
+        <av:Size x:Key="ShapeSize">60,75.2</av:Size>
+        <av:PointCollection x:Key="ConnectorLocation">480,107.7 480,157.7</av:PointCollection>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        <x:Double x:Key="Width">949.20000000000016</x:Double>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Flowchart.StartNode>
+      <x:Reference>__ReferenceID2</x:Reference>
+    </Flowchart.StartNode>
+    <FlowStep x:Name="__ReferenceID2">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">380,157.7</av:Point>
+          <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">480,226.5 480,276.5</av:PointCollection>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Sequence DisplayName="Save Attachement &amp; Filter Spreadsheet" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <Sequence.Variables>
+          <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="dictAttachments" />
+          <Variable x:TypeArguments="sd1:DataTable" Name="datCHPNumbers" />
+          <Variable x:TypeArguments="sd1:DataTable" Name="datExtraColumns" />
+        </Sequence.Variables>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:ReportStatus DisplayName="Report Status - Amending Spreadsheet" sap:VirtualizedContainerService.HintSize="1070,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_1" StatusText="[&quot;Amending spreadsheet...&quot;]" />
+        <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope - Extract Info &amp; Emulate Macro" sap:VirtualizedContainerService.HintSize="1070,2278.8" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" Visible="False" WorkbookPath="[in_TransactionItemString]">
+          <ui:ExcelApplicationScope.Body>
+            <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+              </ActivityAction.Argument>
+              <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1036,2169.6" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Sequence DisplayName="Delete Columns" sap:VirtualizedContainerService.HintSize="326,2802.4" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Created" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_1" Mode="Remove" NoColumns="3" Position="9" SheetName="Created" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Created" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_2" Mode="Remove" NoColumns="1" Position="10" SheetName="Created" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Created" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_3" Mode="Remove" NoColumns="1" Position="12" SheetName="Created" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Created" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_4" Mode="Remove" NoColumns="3" Position="13" SheetName="Created" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Created" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_5" Mode="Remove" NoColumns="1" Position="15" SheetName="Created" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Created" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_6" Mode="Remove" NoColumns="2" Position="17" SheetName="Created" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Amended" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_7" Mode="Remove" NoColumns="1" Position="6" SheetName="Amended" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Amended" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_8" Mode="Remove" NoColumns="3" Position="7" SheetName="Amended" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Amended" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_9" Mode="Remove" NoColumns="1" Position="8" SheetName="Amended" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Amended" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_11" Mode="Remove" NoColumns="2" Position="9" SheetName="Amended" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Amended" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_10" Mode="Remove" NoColumns="2" Position="10" SheetName="Amended" />
+                  <ui:ExcelInsertDeleteColumns DisplayName="Insert/Delete Columns - Amended" sap:VirtualizedContainerService.HintSize="284,189.2" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteColumns_12" Mode="Remove" NoColumns="2" Position="11" SheetName="Amended" />
+                </Sequence>
+                <ui:ExcelReadRange AddHeaders="False" DataTable="[datCHPNumbers]" DisplayName="Read Range - Column M" sap:VirtualizedContainerService.HintSize="994,59.2" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="M2:M1000" SheetName="Created" />
+                <ui:FilterDataTable DataTable="[datCHPNumbers]" DisplayName="Filter Data Table - Remove Extra Rows" FilterRowsMode="Remove" sap:VirtualizedContainerService.HintSize="994,163.2" sap2010:WorkflowViewState.IdRef="FilterDataTable_1" OutputDataTable="[datCHPNumbers]" SelectColumnsMode="Keep">
+                  <ui:FilterDataTable.Filters>
+                    <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+                      <ui:FilterOperationArgument Operand="{x:Null}" BooleanOperator="And" Operator="EMPTY">
+                        <ui:FilterOperationArgument.Column>
+                          <InArgument x:TypeArguments="x:Int32">[0]</InArgument>
+                        </ui:FilterOperationArgument.Column>
+                      </ui:FilterOperationArgument>
+                    </scg:List>
+                  </ui:FilterDataTable.Filters>
+                  <ui:FilterDataTable.SelectColumns>
+                    <scg:List x:TypeArguments="InArgument" Capacity="4">
+                      <x:Null />
+                    </scg:List>
+                  </ui:FilterDataTable.SelectColumns>
+                </ui:FilterDataTable>
+                <ui:BuildDataTable DataTable="[datExtraColumns]" DisplayName="Build Data Table - Landless Keeper/8000 Number" sap:VirtualizedContainerService.HintSize="994,59.2" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Landless_x0020_Keeper&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;1000&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;_x0038_000_x0020_Number&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;1000&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+                <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[datCHPNumbers]" DisplayName="For Each Row in CPH List" sap:VirtualizedContainerService.HintSize="994,1241.6" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                  <ui:ForEachRow.Body>
+                    <ActivityAction x:TypeArguments="sd1:DataRow">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="sd1:DataRow" Name="row" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="960,1121.2" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                        <Sequence.Variables>
+                          <Variable x:TypeArguments="x:String" Name="strFirstCharacter" />
+                          <Variable x:TypeArguments="s:String[]" Name="ArrayCPHDetials" />
+                        </Sequence.Variables>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:GetRowItem Column="{x:Null}" ColumnName="{x:Null}" ColumnIndex="0" DisplayName="Get Row Item - CPH No." sap:VirtualizedContainerService.HintSize="918,189.2" sap2010:WorkflowViewState.IdRef="GetRowItem_1" Row="[row]">
+                          <ui:GetRowItem.Value>
+                            <OutArgument x:TypeArguments="x:String">[strFirstCharacter]</OutArgument>
+                          </ui:GetRowItem.Value>
+                        </ui:GetRowItem>
+                        <Assign DisplayName="Get First Letter" sap:VirtualizedContainerService.HintSize="918,59.6" sap2010:WorkflowViewState.IdRef="Assign_1">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[strFirstCharacter]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[strFirstCharacter.split("/"c)(2).substring(0,1).Tostring]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <If Condition="[strFirstCharacter=&quot;7&quot;]" DisplayName="If first number is 7" sap:VirtualizedContainerService.HintSize="918,471.2" sap2010:WorkflowViewState.IdRef="If_1">
+                          <If.Then>
+                            <Assign DisplayName="Assign 7000 Series CPH" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_3">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="s:String[]">[ArrayCPHDetials]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="s:String[]">[{"Yes","No"}]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Then>
+                          <If.Else>
+                            <Sequence sap:VirtualizedContainerService.HintSize="611.2,311.6" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If Condition="[strFirstCharacter=&quot;8&quot;]" DisplayName="If first number is 8" sap:VirtualizedContainerService.HintSize="569.2,219.6" sap2010:WorkflowViewState.IdRef="If_2">
+                                <If.Then>
+                                  <Assign DisplayName="Assign 8000 Series CPH" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_4">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="s:String[]">[ArrayCPHDetials]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="s:String[]">[{"No","Yes"}]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Then>
+                                <If.Else>
+                                  <Assign DisplayName="Assign Other CPH" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_5">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="s:String[]">[ArrayCPHDetials]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="s:String[]">[{"No","No"}]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Else>
+                              </If>
+                            </Sequence>
+                          </If.Else>
+                        </If>
+                        <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[ArrayCPHDetials]" DataTable="[datExtraColumns]" DisplayName="Add Data Row - CPH detials" sap:VirtualizedContainerService.HintSize="918,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEachRow.Body>
+                </ui:ForEachRow>
+                <ui:ExcelWriteRange AddHeaders="True" DataTable="[datExtraColumns]" DisplayName="Write Range - Extra Columns" sap:VirtualizedContainerService.HintSize="994,87.2" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_1" SheetName="Created" StartingCell="R1" />
+                <ui:ExcelReadRange AddHeaders="True" DataTable="[datCreated]" DisplayName="Read Range - Created" sap:VirtualizedContainerService.HintSize="994,59.2" sap2010:WorkflowViewState.IdRef="ExcelReadRange_2" SheetName="Created">
+                  <ui:ExcelReadRange.Range>
+                    <InArgument x:TypeArguments="x:String">
+                      <Literal x:TypeArguments="x:String" Value="" />
+                    </InArgument>
+                  </ui:ExcelReadRange.Range>
+                </ui:ExcelReadRange>
+                <ui:ExcelReadRange AddHeaders="True" DataTable="[datAmended]" DisplayName="Read Range - Amended" sap:VirtualizedContainerService.HintSize="994,59.2" sap2010:WorkflowViewState.IdRef="ExcelReadRange_3" SheetName="Amended">
+                  <ui:ExcelReadRange.Range>
+                    <InArgument x:TypeArguments="x:String">
+                      <Literal x:TypeArguments="x:String" Value="" />
+                    </InArgument>
+                  </ui:ExcelReadRange.Range>
+                </ui:ExcelReadRange>
+              </Sequence>
+            </ActivityAction>
+          </ui:ExcelApplicationScope.Body>
+        </ui:ExcelApplicationScope>
+      </Sequence>
+      <FlowStep.Next>
+        <FlowStep x:Name="__ReferenceID0">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">380,276.5</av:Point>
+              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">480,345.3 480,395.3</av:PointCollection>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="876,2638.8" sap2010:WorkflowViewState.IdRef="Sequence_8">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ReportStatus DisplayName="Report Status - Uploading Items" sap:VirtualizedContainerService.HintSize="834,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_2" StatusText="[&quot;Uploading amended items...&quot;]" />
+            <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" AzureAppPermissions="FullControl" DisplayName="Sharepoint application scope - Add list item to Registrations RPA Amended CPH" sap:VirtualizedContainerService.HintSize="834,633.2" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SecurePassword="[in_CredSharepoint.securepassword]" SharePointInstanceType="Online" URL="https://defra.sharepoint.com/teams/Team1035" UserName="[in_CredSharepoint.username.ToString]">
+              <usa:SharepointApplicationScope.Body>
+                <ActivityAction x:TypeArguments="us:SharePointContextInfo">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
+                  </ActivityAction.Argument>
+                  <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[datAmended]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="507.2,491.2" sap2010:WorkflowViewState.IdRef="ForEachRow_5">
+                    <ui:ForEachRow.Body>
+                      <ActivityAction x:TypeArguments="sd1:DataRow">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="sd1:DataRow" Name="row" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="473.2,370.4" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="strDate" />
+                            <Variable x:TypeArguments="x:String" Name="strDatePart1" />
+                            <Variable x:TypeArguments="x:String" Name="strDatePart2" />
+                            <Variable x:TypeArguments="x:String" Name="strDatePart3" />
+                            <Variable x:TypeArguments="x:String" Name="strDateEnd" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:MultipleAssign DisplayName="Multiple Assign - Date" sap:VirtualizedContainerService.HintSize="431.2,131.6" sap2010:WorkflowViewState.IdRef="MultipleAssign_6">
+                            <ui:MultipleAssign.AssignOperations>
+                              <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_25">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[strDate]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[row(6).ToString]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_26">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[strDateEnd]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[(CDate(row(6).tostring)).adddays(14).tostring]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                              </scg:List>
+                            </ui:MultipleAssign.AssignOperations>
+                          </ui:MultipleAssign>
+                          <usal:AddListItem AddedItemID="{x:Null}" AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" ChooseFile="False" DisplayName="Add list item - Amended" sap:VirtualizedContainerService.HintSize="431.2,106.8" sap2010:WorkflowViewState.IdRef="AddListItem_4" ListName="Registrations RPA Amended CPH" PropertiesToAdd="[New Dictionary(Of String, Object) From {{&quot;Title&quot;,row(0).ToString},&#xA;{&quot;field_1&quot;,row(7).ToString},&#xA;{&quot;field_2&quot;,row(1).ToString},&#xA;{&quot;field_3&quot;,row(2).ToString},&#xA;{&quot;field_4&quot;,row(3).ToString},&#xA;{&quot;field_5&quot;,row(9).ToString},&#xA;{&quot;field_6&quot;,row(4).ToString},&#xA;{&quot;field_7&quot;,row(10).ToString},&#xA;{&quot;field_8&quot;,row(8).ToString},&#xA;{&quot;field_9&quot;,row(5).ToString},&#xA;{&quot;field_10&quot;,strDate},&#xA;{&quot;field_11&quot;,strDateEnd}&#xA;}]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="True" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="True" ShowRelativeUrl="False" ShowRename="False" ShowUserName="False" />
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEachRow.Body>
+                  </ui:ForEachRow>
+                </ActivityAction>
+              </usa:SharepointApplicationScope.Body>
+            </usa:SharepointApplicationScope>
+            <ui:ReportStatus DisplayName="Report Status - Uploading Items" sap:VirtualizedContainerService.HintSize="834,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_3" StatusText="[&quot;Uploading created items...&quot;]" />
+            <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" AzureAppPermissions="FullControl" DisplayName="Sharepoint application scope - Add list item to Registrations RPA Download" sap:VirtualizedContainerService.HintSize="834,1659.2" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_2" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SecurePassword="[in_CredSharepoint.securepassword]" SharePointInstanceType="Online" URL="https://defra.sharepoint.com/teams/Team1035" UserName="[in_CredSharepoint.username.ToString]">
+              <usa:SharepointApplicationScope.Body>
+                <ActivityAction x:TypeArguments="us:SharePointContextInfo">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
+                  </ActivityAction.Argument>
+                  <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[datCreated]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="800,1517.2" sap2010:WorkflowViewState.IdRef="ForEachRow_4">
+                    <ui:ForEachRow.Body>
+                      <ActivityAction x:TypeArguments="sd1:DataRow">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="sd1:DataRow" Name="row" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="766,1396.4" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="strDate" />
+                            <Variable x:TypeArguments="x:String" Name="strDatePart1" />
+                            <Variable x:TypeArguments="x:String" Name="strDatePart2" />
+                            <Variable x:TypeArguments="x:String" Name="strDatePart3" />
+                            <Variable x:TypeArguments="x:String" Name="strDateEnd" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:MultipleAssign DisplayName="Multiple Assign - Date" sap:VirtualizedContainerService.HintSize="724,131.6" sap2010:WorkflowViewState.IdRef="MultipleAssign_5">
+                            <ui:MultipleAssign.AssignOperations>
+                              <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_23">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[strDate]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[row(11).ToString]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_24">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[strDateEnd]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[(CDate(row(11).tostring)).adddays(14).tostring]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                              </scg:List>
+                            </ui:MultipleAssign.AssignOperations>
+                          </ui:MultipleAssign>
+                          <If Condition="[row(17).tostring=(&quot;Yes&quot;)]" DisplayName="If Landless Keeper" sap:VirtualizedContainerService.HintSize="724,220" sap2010:WorkflowViewState.IdRef="If_3">
+                            <If.Then>
+                              <Assign DisplayName="Assign Landlless Keeper" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[booLandlessKeeper]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </If.Then>
+                            <If.Else>
+                              <Assign DisplayName="Assign Landlless Keeper" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[booLandlessKeeper]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </If.Else>
+                          </If>
+                          <If Condition="[row(18).tostring=(&quot;Yes&quot;)]" DisplayName="If 8000 Number" sap:VirtualizedContainerService.HintSize="724,220" sap2010:WorkflowViewState.IdRef="If_4">
+                            <If.Then>
+                              <Assign DisplayName="Assign 8000 No." sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[boo8000No]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </If.Then>
+                            <If.Else>
+                              <Assign DisplayName="Assign 8000 No." sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[boo8000No]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </If.Else>
+                          </If>
+                          <If Condition="[row(9).tostring.tolower.contains(&quot;pigeons&quot;)]" DisplayName="If stock type is Pigeons" sap:VirtualizedContainerService.HintSize="724,505.6" sap2010:WorkflowViewState.IdRef="If_5">
+                            <If.Then>
+                              <Sequence sap:VirtualizedContainerService.HintSize="360.8,345.6" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <usal:AddListItem AddedItemID="{x:Null}" AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" ChooseFile="False" DisplayName="Add list item - Created" sap:VirtualizedContainerService.HintSize="318.8,106.8" sap2010:WorkflowViewState.IdRef="AddListItem_6" ListName="Registrations RPA Download" PropertiesToAdd="[New Dictionary(Of String, Object) From {{&quot;Created_x002f_Start_x0020_Date&quot;,strDate},&#xA;{&quot;Target_x0020_Date_x0020_1&quot;,strDateEnd},&#xA;{&quot;Title&quot;,row(12).ToString},&#xA;{&quot;Business_x0020_Name&quot;,row(0).ToString},&#xA;{&quot;SBI&quot;,row(5).ToString},&#xA;{&quot;Landless_x0020_Keeper&quot;,booLandlessKeeper},&#xA;{&quot;_x0038_000_x0020_Number&quot;,boo8000No},&#xA;{&quot;Stock_x0020_Type&quot;,row(9).ToString},&#xA;{&quot;Business_x0020_Address&quot;,row(1).ToString},&#xA;{&quot;Business_x0020_Postcode&quot;,row(2).ToString},&#xA;{&quot;Business_x0020_Landline&quot;,row(3).ToString},&#xA;{&quot;Business_x0020_Email&quot;,row(13).ToString},&#xA;{&quot;Business_x0020_Mobile&quot;,row(4).ToString},&#xA;{&quot;Legal_x0020_Status&quot;,row(6).ToString},&#xA;{&quot;Business_x0020_Type&quot;,row(7).ToString},&#xA;{&quot;Land_x0020_XY_x0020_Coordinates&quot;,row(8).ToString},&#xA;{&quot;Holding_x0020_Type&quot;,row(9).ToString},&#xA;{&quot;Primary_x0020_Contact_x0020_Type&quot;,row(14).ToString},&#xA;{&quot;Primary_x0020_Contact_x0020_Name&quot;,row(15).ToString},&#xA;{&quot;Primary_x0020_Contact_x0020_Phon&quot;,row(16).ToString}&#xA;}]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="True" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="True" ShowRelativeUrl="False" ShowRename="False" ShowUserName="False" />
+                                <usal:AddListItem AddedItemID="{x:Null}" AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" ChooseFile="False" DisplayName="Add list item - Created (Pigeons)" sap:VirtualizedContainerService.HintSize="318.8,106.8" sap2010:WorkflowViewState.IdRef="AddListItem_5" ListName="Registration Compliance Checks" PropertiesToAdd="[New Dictionary(Of String, Object) From {{&quot;Work_x0020_Area&quot;,&quot;Racing Pigeons&quot;},&#xD;&#xA;{&quot;Country&quot;,&quot;England&quot;},&#xD;&#xA;{&quot;field_13&quot;,row(0).ToString},&#xD;&#xA;{&quot;AlreadyRegistered&quot;,False},&#xD;&#xA;{&quot;field_9&quot;,row(8).ToString},&#xD;&#xA;{&quot;field_10&quot;,row(9).ToString},&#xD;&#xA;{&quot;field_12&quot;,strDate},&#xD;&#xA;{&quot;Title&quot;,row(12).ToString},&#xD;&#xA;{&quot;field_14&quot;,row(13).ToString},&#xD;&#xA;{&quot;Registered_x0020_on_x0020_Sam&quot;,False},&#xD;&#xA;{&quot;Date_x0020_Registered_x0020_on_x&quot;,datetime.now.tostring},&#xD;&#xA;{&quot;field_2&quot;,row(1).ToString},&#xD;&#xA;{&quot;field_3&quot;,row(2).ToString},&#xD;&#xA;{&quot;field_4&quot;,row(3).ToString},&#xD;&#xA;{&quot;field_5&quot;,row(4).ToString},&#xD;&#xA;{&quot;field_6&quot;,row(5).ToString},&#xD;&#xA;{&quot;field_7&quot;,row(6).ToString},&#xD;&#xA;{&quot;field_8&quot;,row(7).ToString},&#xD;&#xA;{&quot;field_11&quot;,row(9).ToString},&#xD;&#xA;{&quot;field_15&quot;,row(14).ToString},&#xD;&#xA;{&quot;field_16&quot;,row(15).ToString},&#xD;&#xA;{&quot;field_17&quot;,row(16).ToString}&#xD;&#xA;}]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="True" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="True" ShowRelativeUrl="False" ShowRename="False" ShowUserName="False" />
+                              </Sequence>
+                            </If.Then>
+                            <If.Else>
+                              <usal:AddListItem AddedItemID="{x:Null}" AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" ChooseFile="False" DisplayName="Add list item - Created" sap:VirtualizedContainerService.HintSize="318.8,106.8" sap2010:WorkflowViewState.IdRef="AddListItem_3" ListName="Registrations RPA Download" PropertiesToAdd="[New Dictionary(Of String, Object) From {{&quot;Created_x002f_Start_x0020_Date&quot;,strDate},&#xA;{&quot;Target_x0020_Date_x0020_1&quot;,strDateEnd},&#xA;{&quot;Title&quot;,row(12).ToString},&#xA;{&quot;Business_x0020_Name&quot;,row(0).ToString},&#xA;{&quot;SBI&quot;,row(5).ToString},&#xA;{&quot;Landless_x0020_Keeper&quot;,booLandlessKeeper},&#xA;{&quot;_x0038_000_x0020_Number&quot;,boo8000No},&#xA;{&quot;Stock_x0020_Type&quot;,row(9).ToString},&#xA;{&quot;Business_x0020_Address&quot;,row(1).ToString},&#xA;{&quot;Business_x0020_Postcode&quot;,row(2).ToString},&#xA;{&quot;Business_x0020_Landline&quot;,row(3).ToString},&#xA;{&quot;Business_x0020_Email&quot;,row(13).ToString},&#xA;{&quot;Business_x0020_Mobile&quot;,row(4).ToString},&#xA;{&quot;Legal_x0020_Status&quot;,row(6).ToString},&#xA;{&quot;Business_x0020_Type&quot;,row(7).ToString},&#xA;{&quot;Land_x0020_XY_x0020_Coordinates&quot;,row(8).ToString},&#xA;{&quot;Holding_x0020_Type&quot;,row(9).ToString},&#xA;{&quot;Primary_x0020_Contact_x0020_Type&quot;,row(14).ToString},&#xA;{&quot;Primary_x0020_Contact_x0020_Name&quot;,row(15).ToString},&#xA;{&quot;Primary_x0020_Contact_x0020_Phon&quot;,row(16).ToString}&#xA;}]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="True" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="True" ShowRelativeUrl="False" ShowRename="False" ShowUserName="False" />
+                            </If.Else>
+                          </If>
+                          <ui:ReportStatus DisplayName="Report Status - Uploading Items" sap:VirtualizedContainerService.HintSize="724,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_4" StatusText="[&quot;Uploading complete&quot;]" />
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEachRow.Body>
+                  </ui:ForEachRow>
+                </ActivityAction>
+              </usa:SharepointApplicationScope.Body>
+            </usa:SharepointApplicationScope>
+          </Sequence>
+          <FlowStep.Next>
+            <FlowStep x:Name="__ReferenceID1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <av:Point x:Key="ShapeLocation">380,395.3</av:Point>
+                  <av:Size x:Key="ShapeSize">200,52.4</av:Size>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:CommentOut sap:VirtualizedContainerService.HintSize="200,52.4" sap2010:WorkflowViewState.IdRef="CommentOut_4">
+                <ui:CommentOut.Body>
+                  <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                    <Sequence DisplayName="Cleanup" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="For Each File in Working Folder" sap:VirtualizedContainerService.HintSize="434,205.2" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[directory.getfiles(in_strWorkingFolder+&quot;\Attachments&quot;)]">
+                        <ui:ForEach.Body>
+                          <ActivityAction x:TypeArguments="x:Object">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="x:Object" Name="file" />
+                            </ActivityAction.Argument>
+                            <ui:DeleteFileX DisplayName="Delete File - All Files" sap:VirtualizedContainerService.HintSize="384,80.4" sap2010:WorkflowViewState.IdRef="DeleteFileX_2" Path="[file.ToString]" />
+                          </ActivityAction>
+                        </ui:ForEach.Body>
+                      </ui:ForEach>
+                    </Sequence>
+                  </Sequence>
+                </ui:CommentOut.Body>
+              </ui:CommentOut>
+            </FlowStep>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowStep.Next>
+    </FlowStep>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID1</x:Reference>
+  </Flowchart>
+</Activity>
